@@ -1,7 +1,7 @@
 // =============================================================================
 // SMART GREENHOUSE IoT
 // =============================================================================
-// Board    : ESP32-S3-N16R8 Soldered
+// Board    : ESP32-S3-N16R8 Soldered 
 // Firmware : All Phases (Local + WiFi + Supabase + Open-Meteo)
 // Author   : 13525004@std.stei.itb.ac.id
 // =============================================================================
@@ -38,6 +38,7 @@
 #include "config.h"
 #include "sensors.h"
 #include "servo_control.h"
+#include "fan_control.h"
 #include "decision.h"
 #include "wifi_manager.h"
 #include "supabase_client.h"
@@ -74,13 +75,10 @@ void setup() {
   Serial.println("============================================================");
   Serial.println();
 
-  // Inisialisasi LED warning
-  pinMode(PIN_LED_WARNING, OUTPUT);
-  digitalWrite(PIN_LED_WARNING, LOW);
-
   // Inisialisasi komponen
   sensorsInit();
   servoInit();
+  fanInit();
   decisionInit();
 
   wifiInit();
@@ -140,6 +138,9 @@ void loop() {
       (lastStatus.mode == MODE_AUTO) ? "AUTO" : "MANUAL");
     Serial.printf("  Overheat   : %s\n",
       lastStatus.overheating ? "WARNING!" : "Normal");
+    Serial.printf("  Kipas      : %s (%s)\n",
+      lastStatus.fanOn ? "NYALA" : "MATI",
+      (lastStatus.fanMode == FAN_AUTO) ? "AUTO" : "MANUAL");
     Serial.printf("  WiFi       : %s\n",
       lastStatus.wifiConnected ? "Terhubung" : "Offline");
     Serial.printf("  Forecast   : hujan=%s (%d%%)\n",
@@ -166,23 +167,24 @@ void loop() {
     int command = supabaseCheckCommand();
 
     if (command == SERVO_OPEN || command == SERVO_CLOSED) {
-      // Perintah manual: buka atau tutup
-      // decisionManualOverride akan cek Rule 1 (hujan = ditolak)
       SensorData freshData = sensorsRead();
       bool accepted = decisionManualOverride(command, freshData);
-
       if (accepted) {
-        Serial.printf("[MAIN] Perintah manual DITERIMA: %s\n",
+        Serial.printf("[MAIN] Perintah atap DITERIMA: %s\n",
           command == SERVO_OPEN ? "BUKA" : "TUTUP");
       } else {
-        Serial.println("[MAIN] Perintah manual DITOLAK (hujan terdeteksi)");
+        Serial.println("[MAIN] Perintah atap DITOLAK (hujan terdeteksi)");
       }
-    } else if (command == -2) {
-      // Perintah: kembali ke mode auto
+    } else if (command == CMD_AUTO) {
       decisionSetMode(MODE_AUTO);
-      Serial.println("[MAIN] Kembali ke mode AUTO");
+      Serial.println("[MAIN] Atap kembali ke mode AUTO");
+    } else if (command == CMD_FAN_ON) {
+      fanSetManual(true);
+    } else if (command == CMD_FAN_OFF) {
+      fanSetManual(false);
+    } else if (command == CMD_FAN_AUTO) {
+      fanSetMode(FAN_AUTO);
     }
-    // command == -1: tidak ada perintah baru (normal, skip)
   }
 
   // =========================================================================

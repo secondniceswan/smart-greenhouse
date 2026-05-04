@@ -14,15 +14,16 @@
 #define PIN_SCL           9      // GPIO9  → BH1750 SCL (default I2C SCL pada S3)
 #define PIN_DHT11         4      // GPIO4  → DHT11 DATA
 #define PIN_RAIN_DO       5      // GPIO5  → Rain Sensor Digital Output (DO)
-#define PIN_LED_RED       7      // GPIO7  → LED Merah (atap TUTUP + kedip warning anti-oven)
-#define PIN_LED_GREEN     12     // GPIO12 → LED Hijau (atap BUKA)
-#define PIN_LED_WARNING   PIN_LED_RED   // Alias: LED merah dipakai juga utk warning anti-oven
+#define PIN_LED_RED       7      // GPIO7  → LED Merah: nyala = atap TUTUP, mati = atap BUKA
+#define PIN_FAN           12     // GPIO12 → LED Hijau (simulasi KIPAS): nyala = kipas ON
+#define PIN_LED_WARNING   PIN_LED_RED   // Alias kompatibilitas
 #define PIN_SERVO         13     // GPIO13 → Servo MG996R (opsional, belum dipasang)
 
-// ======================== ROOF STATE (pakai LED indikator, bukan servo) ========================
-// Belum pakai servo MG996R — pakai 2 LED sebagai simulasi posisi atap.
-// LED hijau nyala  = atap "BUKA"
-// LED merah nyala  = atap "TUTUP"
+// ======================== INDIKATOR ATAP (pakai LED merah, bukan servo) ========================
+// Belum pakai servo MG996R — LED merah jadi indikator state atap.
+// LED merah ON  = atap "TUTUP"
+// LED merah OFF = atap "BUKA"
+// Kipas (LED hijau) dikontrol terpisah, lihat decision.cpp.
 #define SERVO_OPEN        180    // Nilai simbolik untuk state BUKA (kompatibel API lama)
 #define SERVO_CLOSED      0      // Nilai simbolik untuk state TUTUP
 

@@ -11,16 +11,13 @@ int pendingAngle = SERVO_CLOSED;     // Target yang sedang menunggu hysteresis
 unsigned long lastChangeRequest = 0; // Waktu terakhir target berubah
 RoofState state = ROOF_CLOSED;       // Status atap saat ini
 
-// Update LED indikator atap (hijau = BUKA, merah = TUTUP)
-static void updateRoofLeds(int angle) {
-  bool isOpen = (angle == SERVO_OPEN);
-  digitalWrite(PIN_LED_GREEN, isOpen ? HIGH : LOW);
-  digitalWrite(PIN_LED_RED,   isOpen ? LOW  : HIGH);
+// Update LED merah sebagai indikator atap: nyala = TUTUP, mati = BUKA
+static void updateRoofLed(int angle) {
+  bool isClosed = (angle == SERVO_CLOSED);
+  digitalWrite(PIN_LED_RED, isClosed ? HIGH : LOW);
 }
 
 void servoInit() {
-  // LED indikator atap
-  pinMode(PIN_LED_GREEN, OUTPUT);
   pinMode(PIN_LED_RED, OUTPUT);
 
   // Servo opsional — attach kalau servo dipasang, aman juga kalau tidak.
@@ -31,7 +28,7 @@ void servoInit() {
   currentAngle = SERVO_CLOSED;
   pendingAngle = SERVO_CLOSED;
   state = ROOF_CLOSED;
-  updateRoofLeds(currentAngle);
+  updateRoofLed(currentAngle);
 
   Serial.println("[SERVO] Inisialisasi selesai, posisi awal: TUTUP (LED merah ON)");
 }
@@ -68,7 +65,7 @@ bool servoUpdate() {
     // Hysteresis tercapai! Gerakkan servo
     currentAngle = pendingAngle;
     roofServo.write(currentAngle);
-    updateRoofLeds(currentAngle);
+    updateRoofLed(currentAngle);
 
     // Update state
     if (currentAngle == SERVO_OPEN) {

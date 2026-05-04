@@ -3,6 +3,7 @@
 
 #include "sensors.h"
 #include "servo_control.h"
+#include "fan_control.h"
 
 // Mode operasi sistem
 enum OperationMode {
@@ -20,6 +21,8 @@ struct SystemStatus {
   bool wifiConnected;           // true = WiFi terhubung
   bool forecastRain;            // true = prediksi cuaca akan hujan
   int forecastRainProbability;  // Probabilitas hujan dari Open-Meteo (%)
+  bool fanOn;                   // true = kipas menyala
+  FanMode fanMode;              // AUTO atau MANUAL
 };
 
 // Inisialisasi decision engine (panggil sekali di setup())

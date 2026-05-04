@@ -9,6 +9,7 @@ export default function Page() {
   const [history, setHistory] = useState<SensorLog[]>([])
   const [weather, setWeather] = useState<Weather | null>(null)
   const [mode, setMode] = useState<'auto' | 'manual'>('auto')
+  const [fanMode, setFanMode] = useState<'auto' | 'manual'>('auto')
   const [now, setNow] = useState(Date.now())
   const [sending, setSending] = useState(false)
 
@@ -57,6 +58,7 @@ export default function Page() {
     if (data?.[0]) {
       setLatest(data[0])
       setMode(data[0].mode === 'manual' ? 'manual' : 'auto')
+      setFanMode(data[0].fan_mode === 'manual' ? 'manual' : 'auto')
     }
   }
 
@@ -79,6 +81,13 @@ export default function Page() {
     setSending(true)
     await supabase.from('commands').insert({ action, executed: false })
     setMode(action === 'auto' ? 'auto' : 'manual')
+    setSending(false)
+  }
+
+  async function sendFanCommand(action: 'fan_on' | 'fan_off' | 'fan_auto') {
+    setSending(true)
+    await supabase.from('commands').insert({ action, executed: false })
+    setFanMode(action === 'fan_auto' ? 'auto' : 'manual')
     setSending(false)
   }
 
@@ -111,7 +120,7 @@ export default function Page() {
       </section>
 
       <section className="grid md:grid-cols-3 gap-4 mb-10">
-        <div className="md:col-span-2 bg-white rounded-xl border border-zinc-200 p-6">
+        <div className="bg-white rounded-xl border border-zinc-200 p-6">
           <div className="flex items-baseline justify-between mb-1">
             <h2 className="text-sm font-medium text-zinc-500">Ventilasi Atap</h2>
             <span className="text-xs text-zinc-400">
@@ -143,6 +152,45 @@ export default function Page() {
             <button
               onClick={() => sendCommand('auto')}
               disabled={sending || mode === 'auto'}
+              className="px-4 py-2 rounded-lg border border-zinc-300 text-sm font-medium hover:bg-zinc-50 disabled:opacity-50"
+            >
+              Otomatis
+            </button>
+          </div>
+        </div>
+
+        <div className="bg-white rounded-xl border border-zinc-200 p-6">
+          <div className="flex items-baseline justify-between mb-1">
+            <h2 className="text-sm font-medium text-zinc-500">Kipas</h2>
+            <span className="text-xs text-zinc-400">
+              {fanMode === 'auto' ? 'Otomatis' : 'Manual'}
+            </span>
+          </div>
+          <div className="flex items-center gap-3 mb-6">
+            <span className={`w-3 h-3 rounded-full ${latest?.fan_state ? 'bg-emerald-500' : 'bg-zinc-300'}`} />
+            <span className="text-3xl font-semibold">
+              {latest?.fan_state ? 'Nyala' : 'Mati'}
+            </span>
+          </div>
+
+          <div className="grid grid-cols-3 gap-2">
+            <button
+              onClick={() => sendFanCommand('fan_on')}
+              disabled={sending}
+              className="px-4 py-2 rounded-lg bg-zinc-900 text-white text-sm font-medium hover:bg-zinc-800 disabled:opacity-50"
+            >
+              Nyala
+            </button>
+            <button
+              onClick={() => sendFanCommand('fan_off')}
+              disabled={sending}
+              className="px-4 py-2 rounded-lg bg-zinc-900 text-white text-sm font-medium hover:bg-zinc-800 disabled:opacity-50"
+            >
+              Mati
+            </button>
+            <button
+              onClick={() => sendFanCommand('fan_auto')}
+              disabled={sending || fanMode === 'auto'}
               className="px-4 py-2 rounded-lg border border-zinc-300 text-sm font-medium hover:bg-zinc-50 disabled:opacity-50"
             >
               Otomatis

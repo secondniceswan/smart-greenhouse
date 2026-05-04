@@ -7,12 +7,15 @@
 // Return true kalau berhasil (HTTP 201)
 bool supabasePostSensorData(SystemStatus status);
 
+// Konstanta hasil supabaseCheckCommand
+#define CMD_NONE          -1   // Tidak ada perintah / error
+#define CMD_AUTO          -2   // Atap kembali ke mode auto
+#define CMD_FAN_ON        -3   // Kipas nyala (manual)
+#define CMD_FAN_OFF       -4   // Kipas mati (manual)
+#define CMD_FAN_AUTO      -5   // Kipas kembali ke mode auto
+// Selain itu: SERVO_OPEN (180) atau SERVO_CLOSED (0) untuk atap
+
 // Cek perintah manual terbaru dari tabel "commands" di Supabase
-// Return:
-//   SERVO_OPEN (180)  = perintah buka atap
-//   SERVO_CLOSED (0)  = perintah tutup atap
-//   -2                = perintah kembali ke mode auto
-//   -1                = tidak ada perintah baru / error
 int supabaseCheckCommand();
 
 // Tandai perintah sudah dieksekusi di Supabase (set executed = true)

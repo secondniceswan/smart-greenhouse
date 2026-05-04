@@ -16,10 +16,12 @@ export type SensorLog = {
   roof_state: 'open' | 'closed'
   mode: string
   overheating: boolean
+  fan_state: boolean
+  fan_mode: 'auto' | 'manual'
 }
 
 export type Command = {
-  action: 'open' | 'close' | 'auto'
+  action: 'open' | 'close' | 'auto' | 'fan_on' | 'fan_off' | 'fan_auto'
   executed: boolean
 }
 

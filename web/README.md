@@ -44,7 +44,9 @@ CREATE TABLE sensor_logs (
   roof_angle INT,
   roof_state TEXT,
   mode TEXT,
-  overheating BOOLEAN
+  overheating BOOLEAN,
+  fan_state BOOLEAN,
+  fan_mode TEXT
 );
 
 CREATE TABLE commands (

@@ -118,23 +118,15 @@ SystemStatus decisionProcess(SensorData data) {
   // Update servo (hysteresis timer dicek di dalam servoUpdate)
   servoUpdate();
 
-  // LED warning anti-oven (non-blocking blink pakai millis)
-  if (overheating) {
-    static unsigned long lastBlink = 0;
-    static bool ledState = false;
-    if (millis() - lastBlink >= LED_BLINK_INTERVAL) {
-      ledState = !ledState;
-      digitalWrite(PIN_LED_WARNING, ledState ? HIGH : LOW);
-      lastBlink = millis();
-    }
-  } else {
-    digitalWrite(PIN_LED_WARNING, LOW);
-  }
+  // Kipas otomatis: nyala saat overheating (kalau mode AUTO)
+  fanUpdateAuto(overheating);
 
   // Isi status output
   status.roofState = servoGetState();
   status.roofAngle = servoGetCurrentAngle();
   status.overheating = overheating;
+  status.fanOn = fanIsOn();
+  status.fanMode = fanGetMode();
 
   return status;
 }

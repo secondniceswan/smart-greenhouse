@@ -24,6 +24,8 @@ bool supabasePostSensorData(SystemStatus status) {
   doc["roof_state"]   = (status.roofState == ROOF_OPEN) ? "open" : "closed";
   doc["mode"]         = (status.mode == MODE_AUTO) ? "auto" : "manual";
   doc["overheating"]  = status.overheating;
+  doc["fan_state"]    = status.fanOn;
+  doc["fan_mode"]     = (status.fanMode == FAN_AUTO) ? "auto" : "manual";
 
   String payload;
   serializeJson(doc, payload);
@@ -62,7 +64,7 @@ int supabaseCheckCommand() {
   if (httpCode != 200) {
     http.end();
     Serial.printf("[SUPABASE] Gagal cek perintah, HTTP %d\n", httpCode);
-    return -1;
+    return CMD_NONE;
   }
 
   String response = http.getString();
@@ -75,12 +77,12 @@ int supabaseCheckCommand() {
 
   if (error) {
     Serial.printf("[SUPABASE] JSON parse error: %s\n", error.c_str());
-    return -1;
+    return CMD_NONE;
   }
 
   // Cek apakah array kosong (tidak ada perintah baru)
   if (doc.size() == 0) {
-    return -1;
+    return CMD_NONE;
   }
 
   // Ambil data dari perintah pertama (terbaru)
@@ -94,12 +96,15 @@ int supabaseCheckCommand() {
   supabaseMarkCommandDone(commandId);
 
   // Parse action
-  if (action == "open") return SERVO_OPEN;      // 180
-  if (action == "close") return SERVO_CLOSED;    // 0
-  if (action == "auto") return -2;               // Kembali ke mode auto
+  if (action == "open")     return SERVO_OPEN;
+  if (action == "close")    return SERVO_CLOSED;
+  if (action == "auto")     return CMD_AUTO;
+  if (action == "fan_on")   return CMD_FAN_ON;
+  if (action == "fan_off")  return CMD_FAN_OFF;
+  if (action == "fan_auto") return CMD_FAN_AUTO;
 
   Serial.printf("[SUPABASE] Action tidak dikenal: %s\n", action.c_str());
-  return -1;
+  return CMD_NONE;
 }
 
 bool supabaseMarkCommandDone(int commandId) {
