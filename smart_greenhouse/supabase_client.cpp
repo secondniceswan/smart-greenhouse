@@ -31,15 +31,16 @@ bool supabasePostSensorData(SystemStatus status) {
   serializeJson(doc, payload);
 
   int httpCode = http.POST(payload);
-  http.end();
 
   if (httpCode == 201) {
+    http.end();
     Serial.println("[SUPABASE] Data sensor terkirim");
     return true;
   } else {
-    // Gagal kirim bukan masalah fatal — data akan dikirim lagi di interval berikutnya
-    // Kita tidak meng-buffer data lama karena RAM terbatas
+    String body = http.getString();
+    http.end();
     Serial.printf("[SUPABASE] Gagal kirim data, HTTP %d\n", httpCode);
+    Serial.printf("[SUPABASE] Response: %s\n", body.c_str());
     return false;
   }
 }

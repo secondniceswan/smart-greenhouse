@@ -50,7 +50,12 @@
 //   DO = HIGH saat kering (tidak hujan)
 // PENTING: Ini bisa berbeda tergantung modul. Cek dulu pakai Serial Monitor.
 //   Kalau terbalik, ganti RAIN_DETECTED ke HIGH.
-#define RAIN_DETECTED     HIGH
+#define RAIN_DETECTED     LOW
+
+// TESTING: kalau true, sensor hujan tetap dibaca & dikirim,
+// TAPI tidak akan paksa atap tutup / tolak manual override.
+// Set false di produksi.
+#define IGNORE_RAIN_OVERRIDE  true
 
 // ======================== WEATHER API ========================
 // Koordinat: Jatinangor, Sumedang

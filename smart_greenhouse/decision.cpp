@@ -36,7 +36,7 @@ bool decisionManualOverride(int targetAngle, SensorData currentSensors) {
   // RULE 1: LOCAL IS KING
   // Kalau hujan secara fisik, perintah manual DITOLAK
   // Tidak peduli user mau buka atap — hujan = tetap tutup
-  if (currentSensors.isRaining && targetAngle == SERVO_OPEN) {
+  if (!IGNORE_RAIN_OVERRIDE && currentSensors.isRaining && targetAngle == SERVO_OPEN) {
     Serial.println("[DECISION] Manual override DITOLAK — hujan terdeteksi, atap tetap TUTUP");
     return false;
   }
@@ -62,7 +62,7 @@ SystemStatus decisionProcess(SensorData data) {
   // Rain sensor mendeteksi air secara langsung di plate sensor.
   // Ini data paling akurat yang kita punya — lebih akurat dari API cuaca,
   // lebih akurat dari prediksi, dan lebih penting dari perintah manual.
-  if (data.isRaining) {
+  if (data.isRaining && !IGNORE_RAIN_OVERRIDE) {
     servoSetTarget(SERVO_CLOSED);
 
     // RULE 4: ANTI-OVEN EFFECT
