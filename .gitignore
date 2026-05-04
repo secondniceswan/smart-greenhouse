@@ -1,4 +1,5 @@
 # Credentials (JANGAN commit ke git)
+smart_greenhouse/credentials.h
 firmware/credentials.h
 
 # Node / Next.js
@@ -10,8 +11,8 @@ web/.env.local
 web/.env*.local
 
 # Build artefak Arduino
-firmware/build
-firmware/.cache
+smart_greenhouse/build
+smart_greenhouse/.cache
 
 # OS files
 .DS_Store
