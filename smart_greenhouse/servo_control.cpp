@@ -92,3 +92,14 @@ int servoGetCurrentAngle() {
 RoofState servoGetState() {
   return state;
 }
+
+bool servoForceClose() {
+  if (currentAngle == SERVO_CLOSED && state == ROOF_CLOSED) return false;
+  currentAngle = SERVO_CLOSED;
+  pendingAngle = SERVO_CLOSED;
+  state = ROOF_CLOSED;
+  roofServo.write(SERVO_CLOSED);
+  updateRoofLed(SERVO_CLOSED);
+  Serial.println("[SERVO] >>> TUTUP INSTAN (hujan / emergency)");
+  return true;
+}

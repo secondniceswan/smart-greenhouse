@@ -49,6 +49,7 @@ unsigned long lastSensorRead = 0;
 unsigned long lastSupabasePost = 0;
 unsigned long lastCommandCheck = 0;
 unsigned long lastWeatherFetch = 0;
+unsigned long lastRainCheck = 0;
 
 // Status sistem terakhir (untuk dikirim ke Supabase)
 SystemStatus lastStatus;
@@ -113,19 +114,41 @@ void loop() {
   decisionSetWifiStatus(wifiIsConnected());
 
   // =========================================================================
-  // SENSOR READ — Tiap 5 detik
+  // FAST RAIN CHECK — Tiap 1 detik, biar respon ke tetesan air instan
+  // Kalau hujan terdeteksi & atap belum tutup → tutup TANPA hysteresis
+  // =========================================================================
+  if (now - lastRainCheck >= 1000) {
+    lastRainCheck = now;
+    bool rainNow = (digitalRead(PIN_RAIN_DO) == RAIN_DETECTED);
+    // Fast-close hanya saat AUTO (atau saat flag testing dimatikan).
+    // Saat MANUAL + flag testing aktif, biarin user kontrol bebas.
+    bool shouldForceClose = rainNow && (lastStatus.mode == MODE_AUTO || !IGNORE_RAIN_OVERRIDE);
+    if (shouldForceClose && servoGetState() != ROOF_CLOSED) {
+      bool moved = servoForceClose();
+      if (moved && wifiIsConnected()) {
+        lastStatus.sensors.isRaining = true;
+        lastStatus.roofState = ROOF_CLOSED;
+        lastStatus.roofAngle = SERVO_CLOSED;
+        supabasePostSensorData(lastStatus);
+        lastSupabasePost = now;
+      }
+    }
+  }
+
+  // =========================================================================
+  // SENSOR READ — Tiap 1 detik (responsif)
+  // Log detail dicetak tiap 5 detik biar Serial Monitor ngga banjir
   // =========================================================================
   if (now - lastSensorRead >= SENSOR_READ_INTERVAL) {
     lastSensorRead = now;
 
-    // Baca semua sensor
     SensorData sensorData = sensorsRead();
-
-    // Proses keputusan (otak sistem)
     lastStatus = decisionProcess(sensorData);
 
-    // Print status ke Serial Monitor
-    Serial.println("------------------------------------------------------------");
+    static unsigned long lastLogPrint = 0;
+    if (now - lastLogPrint >= 5000) {
+      lastLogPrint = now;
+      Serial.println("------------------------------------------------------------");
     Serial.printf("  Suhu       : %.1f C\n", lastStatus.sensors.temperature);
     Serial.printf("  Humidity   : %.1f %%\n", lastStatus.sensors.humidity);
     Serial.printf("  Cahaya     : %.0f lux\n", lastStatus.sensors.lux);
@@ -148,6 +171,7 @@ void loop() {
       lastStatus.forecastRainProbability);
     Serial.printf("  Free heap  : %d bytes\n", ESP.getFreeHeap());
     Serial.println();
+    }
   }
 
   // =========================================================================

@@ -62,8 +62,13 @@ SystemStatus decisionProcess(SensorData data) {
   // Rain sensor mendeteksi air secara langsung di plate sensor.
   // Ini data paling akurat yang kita punya — lebih akurat dari API cuaca,
   // lebih akurat dari prediksi, dan lebih penting dari perintah manual.
-  if (data.isRaining && !IGNORE_RAIN_OVERRIDE) {
-    servoSetTarget(SERVO_CLOSED);
+  // AUTO mode: hujan SELALU paksa tutup (instan, skip hysteresis)
+  // MANUAL mode: hujan tutup hanya kalau IGNORE_RAIN_OVERRIDE=false
+  bool rainShouldClose = data.isRaining &&
+    (currentMode == MODE_AUTO || !IGNORE_RAIN_OVERRIDE);
+
+  if (rainShouldClose) {
+    servoForceClose();
 
     // RULE 4: ANTI-OVEN EFFECT
     // Kalau atap tertutup (karena hujan) TAPI suhu di dalam greenhouse > 33°C,

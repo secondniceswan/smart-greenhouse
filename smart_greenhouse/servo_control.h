@@ -28,4 +28,8 @@ int servoGetCurrentAngle();
 // Getter: status atap saat ini
 RoofState servoGetState();
 
+// Tutup atap SEKARANG, skip hysteresis (untuk emergency: hujan terdeteksi)
+// Return true kalau atap baru saja gerak
+bool servoForceClose();
+
 #endif

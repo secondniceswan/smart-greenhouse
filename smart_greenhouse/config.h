@@ -36,12 +36,12 @@
 
 // ======================== TIMING (dalam milidetik) ========================
 // Semua timing pakai millis(), JANGAN PERNAH pakai delay() di loop utama
-#define SENSOR_READ_INTERVAL     5000      // Baca sensor tiap 5 detik
-#define HYSTERESIS_DELAY         5000      // Tunggu 5 detik kondisi stabil sebelum gerak (testing; produksi: 60000)
+#define SENSOR_READ_INTERVAL     1000      // Baca sensor tiap 1 detik (responsif)
+#define HYSTERESIS_DELAY         1000      // Debounce 1 detik sebelum servo/LED gerak (produksi: 60000)
 #define LED_BLINK_INTERVAL       500       // LED warning kedip tiap 500ms
 #define WIFI_RECONNECT_INTERVAL  30000     // Coba reconnect WiFi tiap 30 detik
 #define SUPABASE_POST_INTERVAL   60000     // Kirim data sensor ke Supabase tiap 60 detik
-#define SUPABASE_CHECK_INTERVAL  10000     // Cek perintah manual dari Supabase tiap 10 detik
+#define SUPABASE_CHECK_INTERVAL  2000      // Cek perintah manual dari Supabase tiap 2 detik
 #define WEATHER_FETCH_INTERVAL   1800000   // Ambil forecast Open-Meteo tiap 30 menit
 
 // ======================== RAIN SENSOR LOGIC ========================
