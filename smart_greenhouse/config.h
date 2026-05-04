@@ -37,7 +37,7 @@
 // ======================== TIMING (dalam milidetik) ========================
 // Semua timing pakai millis(), JANGAN PERNAH pakai delay() di loop utama
 #define SENSOR_READ_INTERVAL     5000      // Baca sensor tiap 5 detik
-#define HYSTERESIS_DELAY         60000     // Tunggu 60 detik kondisi stabil sebelum gerak servo
+#define HYSTERESIS_DELAY         5000      // Tunggu 5 detik kondisi stabil sebelum gerak (testing; produksi: 60000)
 #define LED_BLINK_INTERVAL       500       // LED warning kedip tiap 500ms
 #define WIFI_RECONNECT_INTERVAL  30000     // Coba reconnect WiFi tiap 30 detik
 #define SUPABASE_POST_INTERVAL   60000     // Kirim data sensor ke Supabase tiap 60 detik
@@ -50,7 +50,7 @@
 //   DO = HIGH saat kering (tidak hujan)
 // PENTING: Ini bisa berbeda tergantung modul. Cek dulu pakai Serial Monitor.
 //   Kalau terbalik, ganti RAIN_DETECTED ke HIGH.
-#define RAIN_DETECTED     LOW
+#define RAIN_DETECTED     HIGH
 
 // ======================== WEATHER API ========================
 // Koordinat: Jatinangor, Sumedang
