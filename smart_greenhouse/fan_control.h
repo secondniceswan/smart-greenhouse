@@ -24,4 +24,7 @@ void fanUpdateAuto(bool overheating);
 bool fanIsOn();
 FanMode fanGetMode();
 
+// True kalau state kipas berubah sejak panggilan terakhir (auto-reset)
+bool fanStateChangedSinceLastPost();
+
 #endif

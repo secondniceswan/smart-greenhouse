@@ -4,8 +4,10 @@
 
 static bool fanOn = false;
 static FanMode mode = FAN_AUTO;
+static bool stateChanged = false;
 
 static void writeFan(bool on) {
+  if (on != fanOn) stateChanged = true;
   digitalWrite(PIN_FAN, on ? HIGH : LOW);
   fanOn = on;
 }
@@ -41,3 +43,9 @@ void fanUpdateAuto(bool overheating) {
 
 bool fanIsOn() { return fanOn; }
 FanMode fanGetMode() { return mode; }
+
+bool fanStateChangedSinceLastPost() {
+  bool c = stateChanged;
+  stateChanged = false;
+  return c;
+}

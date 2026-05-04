@@ -202,6 +202,18 @@ void loop() {
 
   // =========================================================================
   // SERVO UPDATE — Panggil setiap loop untuk cek hysteresis timer
+  // Kalau atap baru gerak ATAU kipas baru berubah → kirim sensor_log instan
+  // (biar dashboard cepat tau, tanpa nunggu interval 60 detik berikutnya)
   // =========================================================================
-  servoUpdate();
+  bool roofMoved = servoUpdate();
+  bool fanChanged = fanStateChangedSinceLastPost();
+
+  if (wifiIsConnected() && (roofMoved || fanChanged)) {
+    lastStatus.roofState = servoGetState();
+    lastStatus.roofAngle = servoGetCurrentAngle();
+    lastStatus.fanOn = fanIsOn();
+    lastStatus.fanMode = fanGetMode();
+    supabasePostSensorData(lastStatus);
+    lastSupabasePost = now;
+  }
 }

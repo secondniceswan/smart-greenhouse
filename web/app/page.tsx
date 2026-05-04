@@ -10,6 +10,10 @@ export default function Page() {
   const [weather, setWeather] = useState<Weather | null>(null)
   const [mode, setMode] = useState<'auto' | 'manual'>('auto')
   const [fanMode, setFanMode] = useState<'auto' | 'manual'>('auto')
+  const [pendingRoof, setPendingRoof] = useState<'open' | 'closed' | null>(null)
+  const [pendingFan, setPendingFan] = useState<boolean | null>(null)
+  const [doneRoof, setDoneRoof] = useState(false)
+  const [doneFan, setDoneFan] = useState(false)
   const [now, setNow] = useState(Date.now())
   const [sending, setSending] = useState(false)
 
@@ -27,6 +31,23 @@ export default function Page() {
           const row = payload.new as SensorLog
           setLatest(row)
           setHistory((prev) => [...prev, row].slice(-288))
+
+          setPendingRoof((p) => {
+            if (p && row.roof_state === p) {
+              setDoneRoof(true)
+              setTimeout(() => setDoneRoof(false), 2000)
+              return null
+            }
+            return p
+          })
+          setPendingFan((p) => {
+            if (p !== null && row.fan_state === p) {
+              setDoneFan(true)
+              setTimeout(() => setDoneFan(false), 2000)
+              return null
+            }
+            return p
+          })
         }
       )
       .subscribe()
@@ -81,6 +102,8 @@ export default function Page() {
     setSending(true)
     await supabase.from('commands').insert({ action, executed: false })
     setMode(action === 'auto' ? 'auto' : 'manual')
+    if (action === 'open') setPendingRoof('open')
+    else if (action === 'close') setPendingRoof('closed')
     setSending(false)
   }
 
@@ -88,6 +111,8 @@ export default function Page() {
     setSending(true)
     await supabase.from('commands').insert({ action, executed: false })
     setFanMode(action === 'fan_auto' ? 'auto' : 'manual')
+    if (action === 'fan_on') setPendingFan(true)
+    else if (action === 'fan_off') setPendingFan(false)
     setSending(false)
   }
 
@@ -127,24 +152,31 @@ export default function Page() {
               {mode === 'auto' ? 'Otomatis' : 'Manual'}
             </span>
           </div>
-          <div className="flex items-center gap-3 mb-6">
+          <div className="flex items-center gap-3 mb-2">
             <span className={`w-3 h-3 rounded-full ${latest?.roof_state === 'open' ? 'bg-emerald-500' : 'bg-zinc-300'}`} />
             <span className="text-3xl font-semibold">
               {latest?.roof_state === 'open' ? 'Buka' : 'Tutup'}
             </span>
           </div>
+          <div className="text-xs h-4 mb-4">
+            {pendingRoof ? (
+              <span className="text-amber-600">Menunggu konfirmasi ESP...</span>
+            ) : doneRoof ? (
+              <span className="text-emerald-600">Selesai</span>
+            ) : null}
+          </div>
 
           <div className="grid grid-cols-3 gap-2">
             <button
               onClick={() => sendCommand('open')}
-              disabled={sending}
+              disabled={sending || pendingRoof !== null}
               className="px-4 py-2 rounded-lg bg-zinc-900 text-white text-sm font-medium hover:bg-zinc-800 disabled:opacity-50"
             >
               Buka
             </button>
             <button
               onClick={() => sendCommand('close')}
-              disabled={sending}
+              disabled={sending || pendingRoof !== null}
               className="px-4 py-2 rounded-lg bg-zinc-900 text-white text-sm font-medium hover:bg-zinc-800 disabled:opacity-50"
             >
               Tutup
@@ -166,24 +198,31 @@ export default function Page() {
               {fanMode === 'auto' ? 'Otomatis' : 'Manual'}
             </span>
           </div>
-          <div className="flex items-center gap-3 mb-6">
+          <div className="flex items-center gap-3 mb-2">
             <span className={`w-3 h-3 rounded-full ${latest?.fan_state ? 'bg-emerald-500' : 'bg-zinc-300'}`} />
             <span className="text-3xl font-semibold">
               {latest?.fan_state ? 'Nyala' : 'Mati'}
             </span>
           </div>
+          <div className="text-xs h-4 mb-4">
+            {pendingFan !== null ? (
+              <span className="text-amber-600">Menunggu konfirmasi ESP...</span>
+            ) : doneFan ? (
+              <span className="text-emerald-600">Selesai</span>
+            ) : null}
+          </div>
 
           <div className="grid grid-cols-3 gap-2">
             <button
               onClick={() => sendFanCommand('fan_on')}
-              disabled={sending}
+              disabled={sending || pendingFan !== null}
               className="px-4 py-2 rounded-lg bg-zinc-900 text-white text-sm font-medium hover:bg-zinc-800 disabled:opacity-50"
             >
               Nyala
             </button>
             <button
               onClick={() => sendFanCommand('fan_off')}
-              disabled={sending}
+              disabled={sending || pendingFan !== null}
               className="px-4 py-2 rounded-lg bg-zinc-900 text-white text-sm font-medium hover:bg-zinc-800 disabled:opacity-50"
             >
               Mati
