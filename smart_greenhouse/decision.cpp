@@ -86,31 +86,15 @@ SystemStatus decisionProcess(SensorData data) {
     // Kalau mode MANUAL, keputusan sudah di-handle oleh decisionManualOverride()
     // Jadi di sini kita hanya proses kalau mode AUTO
     if (currentMode == MODE_AUTO) {
-
-      // PRIORITAS 2: Prediksi cuaca dari Open-Meteo
-      // Kalau probabilitas hujan >= 60%, tutup atap sebagai antisipasi
-      // meskipun sensor hujan belum mendeteksi air
+      // Mode AUTO: atap BUKA secara default.
+      // Hanya tutup kalau prediksi cuaca akan hujan (probabilitas >= 60%).
+      // Sensor hujan fisik sudah ditangani di blok atas.
       if (forecastRain) {
         servoSetTarget(SERVO_CLOSED);
         Serial.printf("[DECISION] Tutup atap — prediksi hujan %d%%\n",
           forecastRainProbability);
-      }
-      // PRIORITAS 3: Keputusan berdasarkan sensor lokal
-      else {
-        // Cahaya terik + suhu aman → BUKA ATAP (kondisi ideal untuk tanaman)
-        if (data.lux > LUX_HIGH && data.temperature < TEMP_OVERHEAT) {
-          servoSetTarget(SERVO_OPEN);
-        }
-        // Cahaya sedang (500-10000 lux) → BUKA ATAP (masih cukup cahaya)
-        else if (data.lux >= LUX_LOW) {
-          servoSetTarget(SERVO_OPEN);
-        }
-        // Cahaya rendah (< 500 lux) → TUTUP ATAP (gelap/malam, tidak ada manfaat buka)
-        else if (data.lux >= 0 && data.lux < LUX_LOW) {
-          servoSetTarget(SERVO_CLOSED);
-        }
-        // Kalau lux = -1 (sensor error), jangan ambil keputusan
-        // Biarkan servo di posisi terakhir — lebih aman daripada gerak berdasarkan data salah
+      } else {
+        servoSetTarget(SERVO_OPEN);
       }
     }
   }
