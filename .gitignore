@@ -1,0 +1,28 @@
+# Credentials (JANGAN commit ke git)
+firmware/credentials.h
+
+# Node / Next.js
+web/node_modules
+web/.next
+web/out
+web/.vercel
+web/.env.local
+web/.env*.local
+
+# Build artefak Arduino
+firmware/build
+firmware/.cache
+
+# OS files
+.DS_Store
+Thumbs.db
+*.log
+
+# IDE
+.vscode/
+*.swp
+*.swo
+
+# Python cache
+__pycache__/
+*.pyc

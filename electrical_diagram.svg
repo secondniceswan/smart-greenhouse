@@ -1,0 +1,312 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 900" font-family="Consolas, monospace">
+
+  <!-- Background -->
+  <rect width="1200" height="900" fill="#1a1a2e" rx="12"/>
+
+  <!-- Title -->
+  <text x="600" y="40" text-anchor="middle" fill="#e0e0e0" font-size="20" font-weight="bold">ELECTRICAL DIAGRAM — SMART GREENHOUSE IoT</text>
+  <text x="600" y="62" text-anchor="middle" fill="#888" font-size="12">ESP32-WROVER-E | BH1750 | DHT11 | Rain Sensor | MG996R Servo</text>
+
+  <!-- ============ ADAPTOR 5V 3A ============ -->
+  <rect x="30" y="100" width="180" height="90" rx="8" fill="#2d2d44" stroke="#ff6b6b" stroke-width="2"/>
+  <text x="120" y="125" text-anchor="middle" fill="#ff6b6b" font-size="14" font-weight="bold">ADAPTOR DC</text>
+  <text x="120" y="145" text-anchor="middle" fill="#ccc" font-size="11">5V 3A (3000mA)</text>
+  <text x="120" y="163" text-anchor="middle" fill="#ccc" font-size="10">Jack 5.5x2.1mm</text>
+  <text x="120" y="180" text-anchor="middle" fill="#ff6b6b" font-size="10">INPUT: 220V AC</text>
+
+  <!-- Adaptor output labels -->
+  <circle cx="210" cy="130" r="6" fill="#ff4444"/>
+  <text x="225" y="134" fill="#ff4444" font-size="11" font-weight="bold">+5V</text>
+  <circle cx="210" cy="160" r="6" fill="#444"/>
+  <text x="225" y="164" fill="#888" font-size="11" font-weight="bold">GND</text>
+
+  <!-- ============ POWER RAILS ============ -->
+  <!-- +5V Rail -->
+  <line x1="216" y1="130" x2="1050" y2="130" stroke="#ff4444" stroke-width="2.5" stroke-dasharray="8,3"/>
+  <text x="1060" y="134" fill="#ff4444" font-size="10" font-weight="bold">+5V RAIL</text>
+
+  <!-- GND Rail -->
+  <line x1="216" y1="830" x2="1050" y2="830" stroke="#666" stroke-width="2.5"/>
+  <text x="1060" y="834" fill="#888" font-size="10" font-weight="bold">GND RAIL</text>
+
+  <!-- GND from adaptor to rail -->
+  <line x1="210" y1="160" x2="210" y2="830" stroke="#666" stroke-width="2"/>
+  <circle cx="210" cy="830" r="4" fill="#666"/>
+
+  <!-- ============ ESP32-WROVER-E ============ -->
+  <rect x="80" y="280" width="280" height="480" rx="10" fill="#16213e" stroke="#4ecdc4" stroke-width="2.5"/>
+  <rect x="170" y="270" width="100" height="20" rx="4" fill="#333" stroke="#4ecdc4" stroke-width="1"/>
+  <text x="220" y="284" text-anchor="middle" fill="#4ecdc4" font-size="9">MICRO USB</text>
+
+  <text x="220" y="315" text-anchor="middle" fill="#4ecdc4" font-size="16" font-weight="bold">ESP32-WROVER-E</text>
+  <text x="220" y="335" text-anchor="middle" fill="#7ecdc4" font-size="10">DevKit v1</text>
+  <text x="220" y="352" text-anchor="middle" fill="#666" font-size="9">Dual-Core 240MHz</text>
+  <text x="220" y="365" text-anchor="middle" fill="#666" font-size="9">520KB SRAM + 4MB PSRAM</text>
+
+  <!-- ESP32 chip representation -->
+  <rect x="160" y="375" width="120" height="60" rx="4" fill="#0a0a1a" stroke="#4ecdc4" stroke-width="1"/>
+  <text x="220" y="400" text-anchor="middle" fill="#4ecdc4" font-size="9">ESP32-WROVER-E</text>
+  <text x="220" y="415" text-anchor="middle" fill="#4ecdc4" font-size="8">WiFi + BT + PSRAM</text>
+
+  <!-- LEFT SIDE PINS -->
+  <!-- VIN -->
+  <rect x="85" y="450" width="60" height="22" rx="3" fill="#3a1a1a" stroke="#ff4444" stroke-width="1"/>
+  <text x="115" y="465" text-anchor="middle" fill="#ff6b6b" font-size="10" font-weight="bold">VIN</text>
+
+  <!-- 3.3V -->
+  <rect x="85" y="480" width="60" height="22" rx="3" fill="#3a2a1a" stroke="#ffaa44" stroke-width="1"/>
+  <text x="115" y="495" text-anchor="middle" fill="#ffaa44" font-size="10" font-weight="bold">3.3V</text>
+
+  <!-- GND -->
+  <rect x="85" y="510" width="60" height="22" rx="3" fill="#1a1a1a" stroke="#666" stroke-width="1"/>
+  <text x="115" y="525" text-anchor="middle" fill="#888" font-size="10" font-weight="bold">GND</text>
+
+  <!-- RIGHT SIDE PINS -->
+  <!-- GPIO21 SDA -->
+  <rect x="295" y="450" width="60" height="22" rx="3" fill="#1a2a3a" stroke="#44aaff" stroke-width="1"/>
+  <text x="325" y="465" text-anchor="middle" fill="#44aaff" font-size="9" font-weight="bold">GPIO21</text>
+  <text x="325" y="443" fill="#44aaff" font-size="8" text-anchor="middle">SDA</text>
+
+  <!-- GPIO22 SCL -->
+  <rect x="295" y="480" width="60" height="22" rx="3" fill="#1a2a3a" stroke="#44aaff" stroke-width="1"/>
+  <text x="325" y="495" text-anchor="middle" fill="#44aaff" font-size="9" font-weight="bold">GPIO22</text>
+  <text x="325" y="473" fill="#44aaff" font-size="8" text-anchor="middle">SCL</text>
+
+  <!-- GPIO4 -->
+  <rect x="295" y="520" width="60" height="22" rx="3" fill="#1a3a1a" stroke="#44ff44" stroke-width="1"/>
+  <text x="325" y="535" text-anchor="middle" fill="#44ff44" font-size="9" font-weight="bold">GPIO4</text>
+  <text x="325" y="513" fill="#44ff44" font-size="8" text-anchor="middle">DIGITAL</text>
+
+  <!-- GPIO34 -->
+  <rect x="295" y="560" width="60" height="22" rx="3" fill="#2a2a1a" stroke="#ffff44" stroke-width="1"/>
+  <text x="325" y="575" text-anchor="middle" fill="#ffff44" font-size="9" font-weight="bold">GPIO34</text>
+  <text x="325" y="553" fill="#ffff44" font-size="8" text-anchor="middle">INPUT</text>
+
+  <!-- GPIO13 -->
+  <rect x="295" y="600" width="60" height="22" rx="3" fill="#3a1a3a" stroke="#ff44ff" stroke-width="1"/>
+  <text x="325" y="615" text-anchor="middle" fill="#ff44ff" font-size="9" font-weight="bold">GPIO13</text>
+  <text x="325" y="593" fill="#ff44ff" font-size="8" text-anchor="middle">PWM</text>
+
+  <!-- VIN connection from 5V rail -->
+  <line x1="85" y1="461" x2="50" y2="461" stroke="#ff4444" stroke-width="2"/>
+  <line x1="50" y1="461" x2="50" y2="130" stroke="#ff4444" stroke-width="2"/>
+  <circle cx="50" cy="130" r="4" fill="#ff4444"/>
+
+  <!-- GND connection to GND rail -->
+  <line x1="85" y1="521" x2="60" y2="521" stroke="#666" stroke-width="2"/>
+  <line x1="60" y1="521" x2="60" y2="830" stroke="#666" stroke-width="2"/>
+  <circle cx="60" cy="830" r="4" fill="#666"/>
+
+  <!-- 3.3V bus line going right -->
+  <line x1="85" y1="491" x2="70" y2="491" stroke="#ffaa44" stroke-width="2"/>
+  <line x1="70" y1="491" x2="70" y2="250" stroke="#ffaa44" stroke-width="2" stroke-dasharray="6,3"/>
+  <line x1="70" y1="250" x2="1050" y2="250" stroke="#ffaa44" stroke-width="2" stroke-dasharray="6,3"/>
+  <text x="1060" y="254" fill="#ffaa44" font-size="10" font-weight="bold">3.3V RAIL</text>
+
+  <!-- ============ BH1750 (GY-302) ============ -->
+  <rect x="480" y="390" width="200" height="150" rx="8" fill="#1a2a3a" stroke="#44aaff" stroke-width="2"/>
+  <text x="580" y="415" text-anchor="middle" fill="#44aaff" font-size="14" font-weight="bold">BH1750</text>
+  <text x="580" y="433" text-anchor="middle" fill="#6ac" font-size="10">Module GY-302</text>
+  <text x="580" y="450" text-anchor="middle" fill="#556" font-size="9">Sensor Cahaya (Lux)</text>
+  <text x="580" y="465" text-anchor="middle" fill="#556" font-size="9">I2C Address: 0x23</text>
+
+  <!-- BH1750 pins -->
+  <rect x="490" y="478" width="50" height="18" rx="2" fill="#0a1520" stroke="#44aaff" stroke-width="1"/>
+  <text x="515" y="491" text-anchor="middle" fill="#ffaa44" font-size="9">VCC</text>
+
+  <rect x="490" y="500" width="50" height="18" rx="2" fill="#0a1520" stroke="#44aaff" stroke-width="1"/>
+  <text x="515" y="513" text-anchor="middle" fill="#888" font-size="9">GND</text>
+
+  <rect x="545" y="478" width="50" height="18" rx="2" fill="#0a1520" stroke="#44aaff" stroke-width="1"/>
+  <text x="570" y="491" text-anchor="middle" fill="#44aaff" font-size="9">SDA</text>
+
+  <rect x="545" y="500" width="50" height="18" rx="2" fill="#0a1520" stroke="#44aaff" stroke-width="1"/>
+  <text x="570" y="513" text-anchor="middle" fill="#44aaff" font-size="9">SCL</text>
+
+  <!-- BH1750 Electrical specs -->
+  <text x="580" y="535" text-anchor="middle" fill="#445" font-size="9">3.3V | 0.12mA | I2C 3.3V Logic</text>
+
+  <!-- Wires: ESP32 → BH1750 -->
+  <!-- SDA wire -->
+  <line x1="355" y1="461" x2="420" y2="461" stroke="#44aaff" stroke-width="2"/>
+  <line x1="420" y1="461" x2="420" y2="487" stroke="#44aaff" stroke-width="2"/>
+  <line x1="420" y1="487" x2="545" y2="487" stroke="#44aaff" stroke-width="2"/>
+  <text x="430" y="480" fill="#44aaff" font-size="8">SDA</text>
+
+  <!-- SCL wire -->
+  <line x1="355" y1="491" x2="440" y2="491" stroke="#44aaff" stroke-width="1.5" stroke-dasharray="5,2"/>
+  <line x1="440" y1="491" x2="440" y2="509" stroke="#44aaff" stroke-width="1.5" stroke-dasharray="5,2"/>
+  <line x1="440" y1="509" x2="545" y2="509" stroke="#44aaff" stroke-width="1.5" stroke-dasharray="5,2"/>
+  <text x="450" y="504" fill="#44aaff" font-size="8">SCL</text>
+
+  <!-- BH1750 VCC to 3.3V rail -->
+  <line x1="490" y1="487" x2="470" y2="487" stroke="#ffaa44" stroke-width="1.5"/>
+  <line x1="470" y1="487" x2="470" y2="250" stroke="#ffaa44" stroke-width="1.5"/>
+  <circle cx="470" cy="250" r="3" fill="#ffaa44"/>
+
+  <!-- BH1750 GND to rail -->
+  <line x1="490" y1="509" x2="460" y2="509" stroke="#666" stroke-width="1.5"/>
+  <line x1="460" y1="509" x2="460" y2="830" stroke="#666" stroke-width="1.5"/>
+  <circle cx="460" cy="830" r="3" fill="#666"/>
+
+  <!-- ============ DHT11 ============ -->
+  <rect x="480" y="580" width="200" height="140" rx="8" fill="#1a3a1a" stroke="#44ff44" stroke-width="2"/>
+  <text x="580" y="605" text-anchor="middle" fill="#44ff44" font-size="14" font-weight="bold">DHT11</text>
+  <text x="580" y="623" text-anchor="middle" fill="#6c6" font-size="10">Module (3-pin)</text>
+  <text x="580" y="640" text-anchor="middle" fill="#456" font-size="9">Sensor Suhu + Kelembapan</text>
+
+  <!-- DHT11 pins -->
+  <rect x="495" y="655" width="50" height="18" rx="2" fill="#0a200a" stroke="#44ff44" stroke-width="1"/>
+  <text x="520" y="668" text-anchor="middle" fill="#ffaa44" font-size="9">VCC</text>
+
+  <rect x="555" y="655" width="50" height="18" rx="2" fill="#0a200a" stroke="#44ff44" stroke-width="1"/>
+  <text x="580" y="668" text-anchor="middle" fill="#44ff44" font-size="9">DATA</text>
+
+  <rect x="615" y="655" width="50" height="18" rx="2" fill="#0a200a" stroke="#44ff44" stroke-width="1"/>
+  <text x="640" y="668" text-anchor="middle" fill="#888" font-size="9">GND</text>
+
+  <!-- DHT11 specs -->
+  <text x="580" y="710" text-anchor="middle" fill="#445" font-size="9">3.3V | 2.5mA | Pull-up on module</text>
+
+  <!-- DHT11 DATA wire from GPIO4 -->
+  <line x1="355" y1="531" x2="400" y2="531" stroke="#44ff44" stroke-width="2"/>
+  <line x1="400" y1="531" x2="400" y2="664" stroke="#44ff44" stroke-width="2"/>
+  <line x1="400" y1="664" x2="555" y2="664" stroke="#44ff44" stroke-width="2"/>
+  <text x="410" y="600" fill="#44ff44" font-size="8">DATA</text>
+
+  <!-- DHT11 VCC to 3.3V rail -->
+  <line x1="495" y1="664" x2="480" y2="664" stroke="#ffaa44" stroke-width="1.5"/>
+  <line x1="480" y1="664" x2="480" y2="250" stroke="#ffaa44" stroke-width="1.5"/>
+  <circle cx="480" cy="250" r="3" fill="#ffaa44"/>
+
+  <!-- DHT11 GND to rail -->
+  <line x1="665" y1="664" x2="680" y2="664" stroke="#666" stroke-width="1.5"/>
+  <line x1="680" y1="664" x2="680" y2="830" stroke="#666" stroke-width="1.5"/>
+  <circle cx="680" cy="830" r="3" fill="#666"/>
+
+  <!-- ============ RAIN SENSOR ============ -->
+  <rect x="750" y="390" width="220" height="170" rx="8" fill="#2a2a1a" stroke="#ffff44" stroke-width="2"/>
+  <text x="860" y="415" text-anchor="middle" fill="#ffff44" font-size="14" font-weight="bold">RAIN SENSOR</text>
+  <text x="860" y="433" text-anchor="middle" fill="#cc9" font-size="10">MH-RD + LM393 Module</text>
+  <text x="860" y="450" text-anchor="middle" fill="#556" font-size="9">Sensor Hujan (Digital)</text>
+
+  <!-- Rain sensor pins -->
+  <rect x="760" y="465" width="45" height="18" rx="2" fill="#1a1a0a" stroke="#ffff44" stroke-width="1"/>
+  <text x="782" y="478" text-anchor="middle" fill="#ffaa44" font-size="9">VCC</text>
+
+  <rect x="810" y="465" width="45" height="18" rx="2" fill="#1a1a0a" stroke="#ffff44" stroke-width="1"/>
+  <text x="832" y="478" text-anchor="middle" fill="#888" font-size="9">GND</text>
+
+  <rect x="860" y="465" width="45" height="18" rx="2" fill="#1a1a0a" stroke="#ffff44" stroke-width="1"/>
+  <text x="882" y="478" text-anchor="middle" fill="#ffff44" font-size="9">DO</text>
+
+  <rect x="910" y="465" width="45" height="18" rx="2" fill="#1a1a0a" stroke="#666" stroke-width="1"/>
+  <text x="932" y="478" text-anchor="middle" fill="#666" font-size="9">AO</text>
+  <line x1="910" y1="465" x2="955" y2="483" stroke="#ff4444" stroke-width="2"/>
+  <text x="940" y="460" fill="#ff4444" font-size="8">NOT USED</text>
+
+  <!-- Rain sensor specs -->
+  <text x="860" y="505" text-anchor="middle" fill="#445" font-size="9">3.3V | ~15mA | Digital Output Only</text>
+
+  <!-- Warning box -->
+  <rect x="765" y="515" width="190" height="35" rx="4" fill="#3a2a0a" stroke="#ff8844" stroke-width="1"/>
+  <text x="860" y="530" text-anchor="middle" fill="#ff8844" font-size="9" font-weight="bold">Pakai DO saja, skip AO</text>
+  <text x="860" y="543" text-anchor="middle" fill="#ff8844" font-size="8">AO bisa 5V → rusak ESP32 ADC</text>
+
+  <!-- Rain DO wire from GPIO34 -->
+  <line x1="355" y1="571" x2="390" y2="571" stroke="#ffff44" stroke-width="2"/>
+  <line x1="390" y1="571" x2="390" y2="350" stroke="#ffff44" stroke-width="2"/>
+  <line x1="390" y1="350" x2="882" y2="350" stroke="#ffff44" stroke-width="2"/>
+  <line x1="882" y1="350" x2="882" y2="465" stroke="#ffff44" stroke-width="2"/>
+  <text x="630" y="345" fill="#ffff44" font-size="8">DO (Digital)</text>
+
+  <!-- Rain VCC to 3.3V rail -->
+  <line x1="782" y1="465" x2="782" y2="250" stroke="#ffaa44" stroke-width="1.5"/>
+  <circle cx="782" cy="250" r="3" fill="#ffaa44"/>
+
+  <!-- Rain GND to rail -->
+  <line x1="832" y1="483" x2="832" y2="830" stroke="#666" stroke-width="1.5"/>
+  <circle cx="832" cy="830" r="3" fill="#666"/>
+
+  <!-- ============ MG996R SERVO ============ -->
+  <rect x="750" y="600" width="220" height="180" rx="8" fill="#3a1a3a" stroke="#ff44ff" stroke-width="2"/>
+  <text x="860" y="625" text-anchor="middle" fill="#ff44ff" font-size="14" font-weight="bold">SERVO MG996R</text>
+  <text x="860" y="643" text-anchor="middle" fill="#c6c" font-size="10">Metal Gear, High Torque</text>
+  <text x="860" y="660" text-anchor="middle" fill="#556" font-size="9">Aktuator Atap Louver</text>
+
+  <!-- Servo wires (colored like real servo) -->
+  <rect x="775" y="675" width="55" height="20" rx="2" fill="#aa0000" stroke="#ff4444" stroke-width="1"/>
+  <text x="802" y="689" text-anchor="middle" fill="#fff" font-size="9">VCC</text>
+  <text x="802" y="700" fill="#ff6b6b" font-size="7" text-anchor="middle">MERAH</text>
+
+  <rect x="835" y="675" width="55" height="20" rx="2" fill="#553300" stroke="#886622" stroke-width="1"/>
+  <text x="862" y="689" text-anchor="middle" fill="#fff" font-size="9">GND</text>
+  <text x="862" y="700" fill="#aa8844" font-size="7" text-anchor="middle">COKLAT</text>
+
+  <rect x="895" y="675" width="55" height="20" rx="2" fill="#cc6600" stroke="#ff8800" stroke-width="1"/>
+  <text x="922" y="689" text-anchor="middle" fill="#fff" font-size="9">SIG</text>
+  <text x="922" y="700" fill="#ffaa44" font-size="7" text-anchor="middle">ORANYE</text>
+
+  <!-- Servo specs -->
+  <text x="860" y="720" text-anchor="middle" fill="#445" font-size="9">4.8-7.2V | 500mA run | 2.5A stall</text>
+
+  <!-- IMPORTANT: Power from 5V rail, NOT ESP32 -->
+  <rect x="765" y="732" width="190" height="38" rx="4" fill="#3a0a0a" stroke="#ff4444" stroke-width="1.5"/>
+  <text x="860" y="747" text-anchor="middle" fill="#ff4444" font-size="9" font-weight="bold">POWER DARI ADAPTOR 5V</text>
+  <text x="860" y="762" text-anchor="middle" fill="#ff4444" font-size="8">BUKAN dari pin ESP32!</text>
+
+  <!-- Servo VCC to 5V rail (direct from adaptor) -->
+  <line x1="802" y1="675" x2="802" y2="200" stroke="#ff4444" stroke-width="2.5"/>
+  <line x1="802" y1="200" x2="802" y2="130" stroke="#ff4444" stroke-width="2.5"/>
+  <circle cx="802" cy="130" r="4" fill="#ff4444"/>
+
+  <!-- Capacitor on servo power -->
+  <rect x="790" y="175" width="24" height="40" rx="2" fill="none" stroke="#44ffff" stroke-width="2"/>
+  <line x1="796" y1="185" x2="808" y2="185" stroke="#44ffff" stroke-width="1.5"/>
+  <line x1="796" y1="188" x2="808" y2="188" stroke="#44ffff" stroke-width="1.5"/>
+  <text x="820" y="192" fill="#44ffff" font-size="8">470µF</text>
+  <text x="820" y="203" fill="#44ffff" font-size="7">16V</text>
+
+  <!-- Servo GND to rail -->
+  <line x1="862" y1="695" x2="862" y2="830" stroke="#666" stroke-width="2"/>
+  <circle cx="862" cy="830" r="3" fill="#666"/>
+
+  <!-- Servo signal from GPIO13 -->
+  <line x1="355" y1="611" x2="380" y2="611" stroke="#ff44ff" stroke-width="2"/>
+  <line x1="380" y1="611" x2="380" y2="775" stroke="#ff44ff" stroke-width="2"/>
+  <line x1="380" y1="775" x2="922" y2="775" stroke="#ff44ff" stroke-width="2"/>
+  <line x1="922" y1="775" x2="922" y2="695" stroke="#ff44ff" stroke-width="2"/>
+  <text x="650" y="770" fill="#ff44ff" font-size="8">PWM Signal (3.3V)</text>
+
+  <!-- ============ LEGEND ============ -->
+  <rect x="30" y="200" width="180" height="65" rx="6" fill="#1a1a2e" stroke="#444" stroke-width="1"/>
+  <text x="120" y="218" text-anchor="middle" fill="#aaa" font-size="10" font-weight="bold">LEGEND</text>
+  <line x1="45" y1="230" x2="75" y2="230" stroke="#ff4444" stroke-width="2" stroke-dasharray="8,3"/>
+  <text x="82" y="234" fill="#ccc" font-size="9">+5V Rail</text>
+  <line x1="45" y1="245" x2="75" y2="245" stroke="#ffaa44" stroke-width="2" stroke-dasharray="6,3"/>
+  <text x="82" y="249" fill="#ccc" font-size="9">+3.3V Rail</text>
+  <line x1="45" y1="258" x2="75" y2="258" stroke="#666" stroke-width="2"/>
+  <text x="82" y="262" fill="#ccc" font-size="9">GND Rail</text>
+
+  <!-- ============ CURRENT SUMMARY TABLE ============ -->
+  <rect x="30" y="770" width="180" height="50" rx="6" fill="#1a2a1a" stroke="#4ecdc4" stroke-width="1"/>
+  <text x="120" y="788" text-anchor="middle" fill="#4ecdc4" font-size="10" font-weight="bold">TOTAL ARUS</text>
+  <text x="120" y="803" text-anchor="middle" fill="#ccc" font-size="9">Normal: ~668mA</text>
+  <text x="120" y="815" text-anchor="middle" fill="#ff8844" font-size="9">Peak: ~2768mA / 3000mA</text>
+
+  <!-- ============ PIN SUMMARY BOX ============ -->
+  <rect x="100" y="650" width="240" height="100" rx="6" fill="#0a0a1a" stroke="#4ecdc4" stroke-width="1"/>
+  <text x="220" y="668" text-anchor="middle" fill="#4ecdc4" font-size="10" font-weight="bold">PIN ASSIGNMENT</text>
+  <text x="115" y="685" fill="#44aaff" font-size="9">GPIO21 (SDA) → BH1750</text>
+  <text x="115" y="698" fill="#44aaff" font-size="9">GPIO22 (SCL) → BH1750</text>
+  <text x="115" y="711" fill="#44ff44" font-size="9">GPIO4  (DIG) → DHT11 DATA</text>
+  <text x="115" y="724" fill="#ffff44" font-size="9">GPIO34 (IN)  → Rain DO</text>
+  <text x="115" y="737" fill="#ff44ff" font-size="9">GPIO13 (PWM) → Servo SIG</text>
+
+  <!-- ============ NOTES ============ -->
+  <rect x="480" y="100" width="320" height="55" rx="6" fill="#2a1a0a" stroke="#ff8844" stroke-width="1.5"/>
+  <text x="640" y="118" text-anchor="middle" fill="#ff8844" font-size="11" font-weight="bold">CATATAN PENTING</text>
+  <text x="495" y="133" fill="#ffaa44" font-size="9">1. Semua sensor pakai 3.3V (dari ESP32)</text>
+  <text x="495" y="146" fill="#ffaa44" font-size="9">2. Servo power langsung dari adaptor 5V</text>
+
+</svg>
